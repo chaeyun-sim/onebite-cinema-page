@@ -1,11 +1,12 @@
 .container {
-  background-color: white;
-  max-width: 600px;
-  min-height: 100vh;
+  background-color: black;
+  max-width: 800px;
+  height: 100dvh;
   margin: 0 auto;
 
   box-shadow: rgba(100, 100, 100, 0.2) 0px 0px 29px 0px;
-  padding: 0px 15px;
+  padding: 0px 20px;
+  color: white;
 }
 
 .header {
@@ -17,7 +18,8 @@
 }
 
 .header > a {
-  color: black;
+  color: rgb(229, 9, 20);
+  font-size: 20px;
   text-decoration: none;
 }
 
