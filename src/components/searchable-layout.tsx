@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { ChangeEvent, KeyboardEvent, ReactNode, useEffect, useState } from 'react';
-import style from '@/searchable-layout.module.css';
+import style from './searchable-layout.module.css';
 
 export default function SearchableLayout({ children }: { children: ReactNode }) {
   const router = useRouter();

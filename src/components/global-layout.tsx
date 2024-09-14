@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import style from '@/global-layout.module.css';
+import style from './global-layout.module.css';
 
 export default function GlobalLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +9,7 @@ export default function GlobalLayout({ children }: { children: ReactNode }) {
         <Link href={'/'}>ONEBITE CINEMA</Link>
       </header>
       <main className={style.main}>{children}</main>
-      {/* <footer className={style.footer}>제작 @chaeyun-sim</footer> */}
+      <footer className={style.footer}>@ chaeyun-sim</footer>
     </div>
   );
 }
