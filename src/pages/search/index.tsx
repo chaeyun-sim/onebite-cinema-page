@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
-import SearchableLayout from '../components/searchable-layout';
+import SearchableLayout from '.@/components/searchable-layout';
 
 export default function Page() {
   const router = useRouter();
