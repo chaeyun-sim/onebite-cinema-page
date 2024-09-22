@@ -4,24 +4,23 @@ import { ReactNode } from 'react';
 import style from './index.module.css';
 import Link from 'next/link';
 import fetchAllMovies from '@/lib/fetch-all-movies';
-import { InferGetServerSidePropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { MovieData } from '@/types';
 import fetchRandomMovies from '@/lib/fetch-reco-movies';
 
-export const getServerSideProps = async () => {
-  const [allMovies, recoMovies] = await Promise.all([fetchAllMovies(), fetchRandomMovies()]);
+export const getStaticProps: GetStaticProps = async () => {
+  const allMovies = await fetchAllMovies();
+  const randomMovies = await fetchRandomMovies();
 
   return {
-    props: {
-      allMovies,
-      recoMovies,
-    },
+    props: { allMovies, randomMovies },
   };
 };
 
 export default function Home({
   allMovies,
-  recoMovies,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  randomMovies,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <Head>
@@ -31,7 +30,7 @@ export default function Home({
         <section>
           <h3>지금 가장 추천하는 영화</h3>
           <div className={`${style.movie_container} ${style.three_sections}`}>
-            {recoMovies?.slice(0, 3).map((item: { id: string }) => (
+            {randomMovies?.map((item: MovieData) => (
               <Link
                 key={item.id}
                 href={`/movie/${item.id}`}
@@ -44,7 +43,7 @@ export default function Home({
         <section>
           <h3>등록된 모든 영화</h3>
           <div className={`${style.movie_container} ${style.five_sections}`}>
-            {allMovies?.map(item => (
+            {allMovies?.map((item: MovieData) => (
               <Link
                 key={item.id}
                 href={`/movie/${item.id}`}
