@@ -1,12 +1,25 @@
-import { useRouter } from 'next/router';
-import movies from '@/mock/dummy.json';
+import fetchSingleMovie from '@/lib/fetch-single-movie';
 import style from './[id].module.css';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 
-export default function Page() {
-  const router = useRouter();
-  const { id } = router.query;
-  const movie = movies.find(el => el.id === Number(id));
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const id = context.params!.id;
+  const movie = await fetchSingleMovie(Number(id));
 
+  if (!movie) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      movie: JSON.parse(JSON.stringify(movie)),
+    },
+  };
+};
+
+export default function Page({ movie }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (!movie) {
     return <div>Not found</div>;
   }

@@ -1,25 +1,27 @@
+/* eslint-disable @next/next/no-typos */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRouter } from 'next/router';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import SearchableLayout from '@/components/searchable-layout';
-import movies from '@/mock/dummy.json';
-import { MovieData } from '@/types';
 import Link from 'next/link';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import fetchAllMovies from '@/lib/fetch-all-movies';
+import { MovieData } from '@/types';
 
-export default function Page() {
-  const router = useRouter();
-  const { q } = router.query;
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const q = context.query.q;
+  const movies = await fetchAllMovies(q as string);
 
-  const [filteredMovies, setFilteredMovies] = useState<MovieData[]>([]);
+  return {
+    props: {
+      movies,
+    },
+  };
+};
 
-  useEffect(() => {
-    setFilteredMovies(movies.filter(el => el.title.startsWith(String(q))));
-  }, [q]);
-
+export default function Page({ movies }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
-      <h1>Search {q}</h1>
-      {filteredMovies.map(item => (
+      {movies.map((item: MovieData) => (
         <Link
           key={item.id}
           href={`/movie/${item.id}`}
