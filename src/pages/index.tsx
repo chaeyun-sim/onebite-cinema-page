@@ -9,8 +9,7 @@ import { MovieData } from '@/types';
 import fetchRandomMovies from '@/lib/fetch-reco-movies';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allMovies = await fetchAllMovies();
-  const randomMovies = await fetchRandomMovies();
+  const [allMovies, randomMovies] = await Promise.all([fetchAllMovies(), fetchRandomMovies()]);
 
   return {
     props: { allMovies, randomMovies },
@@ -24,7 +23,19 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>ONEBITE CINEMA</title>
+        <title>한입시네마</title>
+        <meta
+          property='og:image'
+          content='/thumbnail.png'
+        />
+        <meta
+          property='og:title'
+          content='한입시네마'
+        />
+        <meta
+          property='og:description'
+          content='한입 시네마에 등록된 영화들을 만나보세요!'
+        />
       </Head>
       <div className={style.container}>
         <section>
